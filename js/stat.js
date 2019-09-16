@@ -12,7 +12,7 @@ var MAX_BAR_HEIGHT = 150;
 var BAR_GAP = 50;
 var PLAYER_COLOR = 'rgba(255, 0, 0, 1)';
 var SHADOW_COLOR = 'rgba(0, 0, 0, 0.7)';
-var TITLE = ['Ура вы победили!', 'Список результатов'];
+var TITLES = ['Ура вы победили!', 'Список результатов'];
 
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -69,6 +69,6 @@ window.renderStatistics = function (ctx, players, times) {
 
   ctx.fillStyle = '#000000';
 
-  renderTitle(ctx, TITLE);
+  renderTitle(ctx, TITLES);
   renderChart(ctx, players, times);
 };
