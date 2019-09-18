@@ -6,8 +6,9 @@ var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb (241, 43, 107)', 'rgb(146, 100, 16
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var NUMBER_OF_WIZARDS = 4;
 
-var userDialog = document.querySelector('.setup');
+var userDialogElement = document.querySelector('.setup');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+var fragment = document.createDocumentFragment();
 
 var getRandomData = function (arr) {
   var position = getRandomInt(arr.length);
@@ -22,11 +23,11 @@ var generateWizards = function (number) {
   var listOfWizards = [];
 
   for (var i = 0; i < number; i++) {
-    var emptyObject = {};
-    listOfWizards.push(emptyObject);
-    listOfWizards[i].name = getRandomData(NAMES) + ' ' + getRandomData(SURNAMES);
-    listOfWizards[i].coatColor = getRandomData(COAT_COLORS);
-    listOfWizards[i].eyesColor = getRandomData(EYES_COLORS);
+    listOfWizards.push({
+      name: getRandomData(NAMES) + ' ' + getRandomData(SURNAMES),
+      coatColor: getRandomData(COAT_COLORS),
+      eyesColor: getRandomData(EYES_COLORS)
+    });
   }
 
   return listOfWizards;
@@ -47,13 +48,14 @@ var addRenderWizards = function (wizardList) {
 
   for (var i = 0; i < wizardList.length; i++) {
     var wizardItem = renderWizard(wizardList[i]);
-    similarListElement.appendChild(wizardItem);
+    fragment.appendChild(wizardItem);
+    similarListElement.appendChild(fragment);
   }
 
 };
 
 var showUserDialog = function () {
-  userDialog.classList.remove('hidden');
+  userDialogElement.classList.remove('hidden');
 };
 
 var showSimilarList = function () {
