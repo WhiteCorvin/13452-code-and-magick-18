@@ -8,7 +8,6 @@ var NUMBER_OF_WIZARDS = 4;
 
 var userDialogElement = document.querySelector('.setup');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-var fragment = document.createDocumentFragment();
 
 var getRandomData = function (arr) {
   var position = getRandomInt(arr.length);
@@ -45,13 +44,14 @@ var renderWizard = function (wizardData) {
 
 var addRenderWizards = function (wizardList) {
   var similarListElement = document.querySelector('.setup-similar-list');
+  var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < wizardList.length; i++) {
     var wizardItem = renderWizard(wizardList[i]);
     fragment.appendChild(wizardItem);
-    similarListElement.appendChild(fragment);
   }
 
+  similarListElement.appendChild(fragment);
 };
 
 var showUserDialog = function () {
