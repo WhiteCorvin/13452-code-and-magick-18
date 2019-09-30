@@ -8,9 +8,11 @@
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
   var NUMBER_OF_WIZARDS = 4;
 
-  var countCoatColor = 1;
-  var countEyesColor = 1;
-  var countFireballColor = 1;
+  var counts = {
+    coatColor: 2,
+    eyesColor: 1,
+    fireballColor: 1
+  };
 
   window.userNameInputElement = document.querySelector('.setup-user-name');
 
@@ -87,6 +89,21 @@
     } else {
       count++;
     }
+    return count;
+  };
+
+  var getBackgorundColorForObject = function (object, array, count, input) {
+    var colorObject = getColor(array, count);
+
+    object.style.backgroundColor = colorObject;
+    input.value = colorObject;
+
+    if (count === (array.length - 1)) {
+      count = 0;
+    } else {
+      count++;
+    }
+    return count;
   };
 
   var addUserDialogElementValidation = function () {
@@ -107,15 +124,15 @@
 
   var addUserChangeColorListener = function () {
     userCoatElement.addEventListener('click', function () {
-      getColorForObject(userCoatElement, COAT_COLORS, countCoatColor, userCoatInputElement);
+      counts.coatColor = getColorForObject(userCoatElement, COAT_COLORS, counts.coatColor, userCoatInputElement);
     });
 
     userEyesElement.addEventListener('click', function () {
-      getColorForObject(userEyesElement, EYES_COLORS, countEyesColor, userEyesInputElement);
+      counts.eyesColor = getColorForObject(userEyesElement, EYES_COLORS, counts.eyesColor, userEyesInputElement);
     });
 
     userFireballElement.addEventListener('click', function () {
-      getColorForObject(userFireballElement, FIREBALL_COLORS, countFireballColor, userFireballInputElement);
+      counts.fireballColor = getBackgorundColorForObject(userFireballElement, FIREBALL_COLORS, counts.fireballColor, userFireballInputElement);
 
     });
   };
