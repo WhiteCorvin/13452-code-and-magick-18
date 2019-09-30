@@ -19,22 +19,6 @@ var renderCloud = function (ctx, x, y, color) {
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
-var getMaxElement = function (arr) {
-  var maxElement = arr[0];
-
-  for (var i = 1; i < arr.length; i++) {
-    if (arr[i] > maxElement) {
-      maxElement = arr[i];
-    }
-  }
-
-  return maxElement;
-};
-
-var getRandomInt = function (max) {
-  return Math.floor(Math.random() * Math.floor(max));
-};
-
 var renderTitle = function (ctx, title) {
   ctx.font = '16px PT Mono';
   ctx.textBaseLine = 'hanging';
@@ -48,14 +32,14 @@ var getBarHeight = function (time, maxTime) {
 };
 
 var renderChart = function (ctx, players, times) {
-  var maxTime = getMaxElement(times);
+  var maxTime = window.util.getMaxElement(times);
 
   for (var i = 0; i < players.length; i++) {
     ctx.fillStyle = '#000000';
     ctx.fillText(players[i], CLOUD_X + BAR_GAP + (TEXT_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - GAP);
     ctx.fillText(Math.round(times[i]), CLOUD_X + BAR_GAP + (TEXT_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - GAP - getBarHeight(times[i], maxTime) - GAP - FONT_GAP);
 
-    ctx.fillStyle = (players[i] === 'Вы') ? PLAYER_COLOR : 'hsl(240, ' + getRandomInt(100) + '%, 50%)';
+    ctx.fillStyle = (players[i] === 'Вы') ? PLAYER_COLOR : 'hsl(240, ' + window.util.getRandomInt(100) + '%, 50%)';
 
     ctx.fillRect(CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - FONT_GAP - GAP - getBarHeight(times[i], maxTime), BAR_WIDTH, getBarHeight(times[i], maxTime));
   }

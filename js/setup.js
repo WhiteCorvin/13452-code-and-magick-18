@@ -14,7 +14,7 @@
     fireballColor: 1
   };
 
-  window.userNameInputElement = document.querySelector('.setup-user-name');
+  var userNameInputElement = document.querySelector('.setup-user-name');
 
   var userCoatElement = document.querySelector('.wizard-coat');
   var userCoatInputElement = document.querySelector('[name = "coat-color"]');
@@ -25,23 +25,14 @@
 
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
-  var getRandomData = function (arr) {
-    var position = getRandomInt(arr.length);
-    return arr[position];
-  };
-
-  var getRandomInt = function (max) {
-    return Math.floor(Math.random() * Math.floor(max));
-  };
-
   var generateWizards = function (number) {
     var listOfWizards = [];
 
     for (var i = 0; i < number; i++) {
       listOfWizards.push({
-        name: getRandomData(NAMES) + ' ' + getRandomData(SURNAMES),
-        coatColor: getRandomData(COAT_COLORS),
-        eyesColor: getRandomData(EYES_COLORS)
+        name: window.util.getRandomData(NAMES) + ' ' + window.util.getRandomData(SURNAMES),
+        coatColor: window.util.getRandomData(COAT_COLORS),
+        eyesColor: window.util.getRandomData(EYES_COLORS)
       });
     }
 
@@ -71,52 +62,20 @@
   };
 
   var showSimilarList = function () {
-    document.querySelector('.setup-similar').classList.remove('hidden');
-  };
-
-  var getColor = function (arr, position) {
-    return arr[position];
-  };
-
-  var getColorForObject = function (object, array, count, input) {
-    var colorObject = getColor(array, count);
-
-    object.style.fill = colorObject;
-    input.value = colorObject;
-
-    if (count === (array.length - 1)) {
-      count = 0;
-    } else {
-      count++;
-    }
-    return count;
-  };
-
-  var getBackgorundColorForObject = function (object, array, count, input) {
-    var colorObject = getColor(array, count);
-
-    object.style.backgroundColor = colorObject;
-    input.value = colorObject;
-
-    if (count === (array.length - 1)) {
-      count = 0;
-    } else {
-      count++;
-    }
-    return count;
+    document.querySelector('.setup-similar').classList.remove(window.HIDDEN_CLASS);
   };
 
   var addUserDialogElementValidation = function () {
-    window.userNameInputElement.addEventListener('invalid', function () {
+    userNameInputElement.addEventListener('invalid', function () {
 
-      if (window.userNameInputElement.validity.tooShort) {
-        window.userNameInputElement.setCustomValidity('Имя должно состоять минимум из 2-х символов');
-      } else if (window.userNameInputElement.validity.tooLong) {
-        window.userNameInputElement.setCustomValidity('Имя не должно превышать 25-ти символов');
-      } else if (window.userNameInputElement.validity.valueMissing) {
-        window.userNameInputElement.setCustomValidity('Обязательное поле');
+      if (userNameInputElement.validity.tooShort) {
+        userNameInputElement.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+      } else if (userNameInputElement.validity.tooLong) {
+        userNameInputElement.setCustomValidity('Имя не должно превышать 25-ти символов');
+      } else if (userNameInputElement.validity.valueMissing) {
+        userNameInputElement.setCustomValidity('Обязательное поле');
       } else {
-        window.userNameInputElement.setCustomValidity('');
+        userNameInputElement.setCustomValidity('');
       }
 
     });
@@ -124,15 +83,15 @@
 
   var addUserChangeColorListener = function () {
     userCoatElement.addEventListener('click', function () {
-      counts.coatColor = getColorForObject(userCoatElement, COAT_COLORS, counts.coatColor, userCoatInputElement);
+      counts.coatColor = window.util.getColorForObject(userCoatElement, COAT_COLORS, counts.coatColor, userCoatInputElement);
     });
 
     userEyesElement.addEventListener('click', function () {
-      counts.eyesColor = getColorForObject(userEyesElement, EYES_COLORS, counts.eyesColor, userEyesInputElement);
+      counts.eyesColor = window.util.getColorForObject(userEyesElement, EYES_COLORS, counts.eyesColor, userEyesInputElement);
     });
 
     userFireballElement.addEventListener('click', function () {
-      counts.fireballColor = getBackgorundColorForObject(userFireballElement, FIREBALL_COLORS, counts.fireballColor, userFireballInputElement);
+      counts.fireballColor = window.util.getBackgorundColorForObject(userFireballElement, FIREBALL_COLORS, counts.fireballColor, userFireballInputElement);
 
     });
   };
@@ -146,4 +105,6 @@
   };
 
   init();
+
+  window.userNameInputElement = userNameInputElement;
 })();

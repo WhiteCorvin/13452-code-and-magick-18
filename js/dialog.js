@@ -1,31 +1,39 @@
 'use strict';
 
 (function () {
+  var HIDDEN_CLASS = 'hidden';
+
   var userDialogElement = document.querySelector('.setup');
-  var userDialogElementOpen = document.querySelector('.setup-open');
-  var userDialogElementClose = document.querySelector('.setup-close');
-  var userAvatarElement = document.querySelector('.upload');
+  var userDialogOpenElement = document.querySelector('.setup-open');
+  var userDialogCloseElement = document.querySelector('.setup-close');
+  var uploadElement = document.querySelector('.upload');
+
+  var resetPositionUserDialogElement = function () {
+    userDialogElement.style.top = '';
+    userDialogElement.style.left = '';
+  };
 
   var onPopupEscPress = function (evt) {
     if (document.activeElement !== window.userNameInputElement) {
-      window.util.isEscEvent(evt, closePopup);
+      window.util.doActionIfEscEvent(evt, closePopup);
     }
   };
 
   var openPopup = function () {
-    userDialogElement.classList.remove('hidden');
+    userDialogElement.classList.remove(window.HIDDEN_CLASS);
 
     document.addEventListener('keydown', onPopupEscPress);
   };
 
   var closePopup = function () {
-    userDialogElement.classList.add('hidden');
+    userDialogElement.classList.add(window.HIDDEN_CLASS);
+    resetPositionUserDialogElement();
 
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
   var addMoveUserDialogElementListener = function () {
-    userAvatarElement.addEventListener('mousedown', function (evt) {
+    uploadElement.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
       var startCoords = {
@@ -61,9 +69,9 @@
         if (dragger) {
           var onClickPreventDefault = function (clickEvt) {
             clickEvt.preventDefault();
-            userAvatarElement.removeEventListener('click', onClickPreventDefault);
+            uploadElement.removeEventListener('click', onClickPreventDefault);
           };
-          userAvatarElement.addEventListener('click', onClickPreventDefault);
+          uploadElement.addEventListener('click', onClickPreventDefault);
         }
       };
 
@@ -73,20 +81,20 @@
   };
 
   var addUserDialogElementListener = function () {
-    userDialogElementOpen.addEventListener('click', function () {
+    userDialogOpenElement.addEventListener('click', function () {
       openPopup();
     });
 
-    userDialogElementOpen.addEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, openPopup);
+    userDialogOpenElement.addEventListener('keydown', function (evt) {
+      window.util.doActionIfEnterEvent(evt, openPopup);
     });
 
-    userDialogElementClose.addEventListener('click', function () {
+    userDialogCloseElement.addEventListener('click', function () {
       closePopup();
     });
 
-    userDialogElementClose.addEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, closePopup);
+    userDialogCloseElement.addEventListener('keydown', function (evt) {
+      window.util.doActionIfEnterEvent(evt, closePopup);
     });
 
   };
@@ -97,4 +105,6 @@
   };
 
   init();
+
+  window.HIDDEN_CLASS = HIDDEN_CLASS;
 })();
