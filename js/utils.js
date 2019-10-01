@@ -3,7 +3,7 @@
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
-  window.util = {
+  var util = {
     doActionIfEscEvent: function (evt, action) {
       if (evt.keyCode === ESC_KEYCODE) {
         action();
@@ -14,18 +14,18 @@
         action();
       }
     },
-    getRandomData: function (arr) {
-      var position = window.util.getRandomInt(arr.length);
-      return arr[position];
-    },
     getRandomInt: function (max) {
       return Math.floor(Math.random() * Math.floor(max));
+    },
+    getRandomData: function (arr) {
+      var position = util.getRandomInt(arr.length);
+      return arr[position];
     },
     getColor: function (arr, position) {
       return arr[position];
     },
     getColorForObject: function (object, array, count, input) {
-      var colorObject = window.util.getColor(array, count);
+      var colorObject = util.getColor(array, count);
 
       object.style.fill = colorObject;
       input.value = colorObject;
@@ -38,7 +38,7 @@
       return count;
     },
     getBackgorundColorForObject: function (object, array, count, input) {
-      var colorObject = window.util.getColor(array, count);
+      var colorObject = util.getColor(array, count);
 
       object.style.backgroundColor = colorObject;
       input.value = colorObject;
@@ -62,5 +62,5 @@
       return maxElement;
     }
   };
-
+  window.util = util;
 })();
