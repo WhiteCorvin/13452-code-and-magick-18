@@ -55,15 +55,27 @@
     });
   };
 
-  var onLoadSuccess = function (arr) {
-    var loadData = arr;
-    var randomWizards = window.util.getRandomWizards(loadData);
+  var onLoadSuccess = function (data) {
+    var randomWizards = window.util.getRandomWizards(data);
+    var errorMessage = document.querySelector('.error-message');
+
+    if (errorMessage) {
+      errorMessage.remove();
+    }
+
     window.util.addRenderWizards(randomWizards);
   };
 
-  var onConnectError = function (errorMessage) {
+  var onConnectError = function () {
+    var errorMessage = document.querySelector('.error-message');
+
+    if (errorMessage) {
+      errorMessage.remove();
+    }
+
     var node = document.createElement('div');
 
+    node.classList.add('error-message');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
     node.style.left = 0;
@@ -74,10 +86,14 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  var onSaveSuccess = function (response) {
-    if (response) {
-      window.variables.userDialogElement.classList.add(window.variables.HIDDEN_CLASS);
+  var onSaveSuccess = function () {
+    var errorMessage = document.querySelector('.error-message');
+
+    if (errorMessage) {
+      errorMessage.remove();
     }
+
+    window.variables.userDialogElement.classList.add(window.variables.HIDDEN_CLASS);
   };
 
   var init = function () {

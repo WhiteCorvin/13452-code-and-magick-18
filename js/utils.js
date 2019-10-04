@@ -73,12 +73,11 @@
     return maxElement;
   };
 
-  var getRandomWizards = function (arr) {
-    var arrWizards = arr;
+  var getRandomWizards = function (wizards) {
     var arrRandomWizards = [];
 
     for (var i = 0; i < NUMBER_OF_WIZARDS; i++) {
-      var arrRandomElem = arrWizards.splice(getRandomInt(arrWizards.length - 1), 1);
+      var arrRandomElem = wizards.splice(getRandomInt(wizards.length - 1), 1);
       arrRandomWizards = arrRandomWizards.concat(arrRandomElem);
     }
     return arrRandomWizards;
