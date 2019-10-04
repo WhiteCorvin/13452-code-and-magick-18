@@ -1,16 +1,14 @@
 'use strict';
 
 (function () {
-  var HIDDEN_CLASS = 'hidden';
 
-  var userDialogElement = document.querySelector('.setup');
   var userDialogOpenElement = document.querySelector('.setup-open');
   var userDialogCloseElement = document.querySelector('.setup-close');
   var uploadElement = document.querySelector('.upload');
 
   var resetPositionUserDialogElement = function () {
-    userDialogElement.style.top = '';
-    userDialogElement.style.left = '';
+    window.variables.userDialogElement.style.top = '';
+    window.variables.userDialogElement.style.left = '';
   };
 
   var onPopupEscPress = function (evt) {
@@ -20,13 +18,12 @@
   };
 
   var openPopup = function () {
-    userDialogElement.classList.remove(window.HIDDEN_CLASS);
-
+    window.variables.userDialogElement.classList.remove(window.variables.HIDDEN_CLASS);
     document.addEventListener('keydown', onPopupEscPress);
   };
 
   var closePopup = function () {
-    userDialogElement.classList.add(window.HIDDEN_CLASS);
+    window.variables.userDialogElement.classList.add(window.variables.HIDDEN_CLASS);
     resetPositionUserDialogElement();
 
     document.removeEventListener('keydown', onPopupEscPress);
@@ -56,8 +53,8 @@
           y: moveEvt.clientY
         };
 
-        userDialogElement.style.top = (userDialogElement.offsetTop - shift.y) + 'px';
-        userDialogElement.style.left = (userDialogElement.offsetLeft - shift.x) + 'px';
+        window.variables.userDialogElement.style.top = (window.variables.userDialogElement.offsetTop - shift.y) + 'px';
+        window.variables.userDialogElement.style.left = (window.variables.userDialogElement.offsetLeft - shift.x) + 'px';
       };
 
       var onMouseUp = function (upEvt) {
@@ -106,5 +103,4 @@
 
   init();
 
-  window.HIDDEN_CLASS = HIDDEN_CLASS;
 })();
