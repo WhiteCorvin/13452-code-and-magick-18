@@ -55,23 +55,23 @@
     });
   };
 
-  var onLoadSuccess = function (data) {
-    var randomWizards = window.util.getRandomWizards(data);
+  var deleteErrorElement = function () {
     var errorMessage = document.querySelector('.error-message');
 
     if (errorMessage) {
       errorMessage.remove();
     }
+  };
+
+  var onLoadSuccess = function (data) {
+    var randomWizards = window.util.getRandomWizards(data);
+    deleteErrorElement();
 
     window.util.addRenderWizards(randomWizards);
   };
 
-  var onConnectError = function () {
-    var errorMessage = document.querySelector('.error-message');
-
-    if (errorMessage) {
-      errorMessage.remove();
-    }
+  var onConnectError = function (errorMessage) {
+    deleteErrorElement();
 
     var node = document.createElement('div');
 
@@ -87,12 +87,7 @@
   };
 
   var onSaveSuccess = function () {
-    var errorMessage = document.querySelector('.error-message');
-
-    if (errorMessage) {
-      errorMessage.remove();
-    }
-
+    deleteErrorElement();
     window.variables.userDialogElement.classList.add(window.variables.HIDDEN_CLASS);
   };
 

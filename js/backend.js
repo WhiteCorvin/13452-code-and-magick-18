@@ -15,7 +15,6 @@
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-    xhr.timeout = 100000;
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
