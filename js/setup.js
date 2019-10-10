@@ -32,21 +32,18 @@
 
     });
   };
+  var getWizardOutfitListener = function (outfit, outfitColors, countColors, outfitInput, changeFunction) {
+    outfit.addEventListener('click', function () {
+      var colorObj = window.util.getColorForObject(outfit, outfitColors, countColors, outfitInput);
+      countColors = colorObj.count;
+
+      changeFunction(colorObj.color);
+    });
+  };
 
   var addUserChangeColorListener = function () {
-    userCoatElement.addEventListener('click', function () {
-      var colorObj = window.util.getColorForObject(userCoatElement, COAT_COLORS, counts.coatColor, window.variables.userCoatInputElement);
-      counts.coatColor = colorObj.count;
-
-      window.similar.onCoatChange(colorObj.color);
-    });
-
-    userEyesElement.addEventListener('click', function () {
-      var colorObj = window.util.getColorForObject(userEyesElement, EYES_COLORS, counts.eyesColor, window.variables.userEyesInputElement);
-      counts.eyesColor = colorObj.count;
-
-      window.similar.onEyesChange(colorObj.color);
-    });
+    getWizardOutfitListener(userCoatElement, COAT_COLORS, counts.coatColor, window.variables.userCoatInputElement, window.similar.onCoatChange);
+    getWizardOutfitListener(userEyesElement, EYES_COLORS, counts.eyesColor, window.variables.userEyesInputElement, window.similar.onEyesChange);
 
     userFireballElement.addEventListener('click', function () {
       counts.fireballColor = window.util.getBackgorundColorForObject(userFireballElement, FIREBALL_COLORS, counts.fireballColor, userFireballInputElement);
