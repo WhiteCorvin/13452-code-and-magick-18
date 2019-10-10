@@ -12,17 +12,10 @@
   };
 
   var formUserDialgoElement = document.querySelector('.setup-wizard-form');
-
   var userCoatElement = document.querySelector('.wizard-coat');
-  var userCoatInputElement = document.querySelector('[name = "coat-color"]');
   var userEyesElement = document.querySelector('.wizard-eyes');
-  var userEyesInputElement = document.querySelector('[name = "eyes-color"]');
   var userFireballElement = document.querySelector('.setup-fireball');
   var userFireballInputElement = document.querySelector('[name = "fireball-color"]');
-
-  var showSimilarList = function () {
-    document.querySelector('.setup-similar').classList.remove(window.variables.HIDDEN_CLASS);
-  };
 
   var addUserDialogElementValidation = function () {
     window.variables.userNameInputElement.addEventListener('invalid', function () {
@@ -42,64 +35,36 @@
 
   var addUserChangeColorListener = function () {
     userCoatElement.addEventListener('click', function () {
-      counts.coatColor = window.util.getColorForObject(userCoatElement, COAT_COLORS, counts.coatColor, userCoatInputElement);
+      var colorObj = window.util.getColorForObject(userCoatElement, COAT_COLORS, counts.coatColor, window.variables.userCoatInputElement);
+      counts.coatColor = colorObj.count;
+
+      window.similar.onCoatChange(colorObj.color);
     });
 
     userEyesElement.addEventListener('click', function () {
-      counts.eyesColor = window.util.getColorForObject(userEyesElement, EYES_COLORS, counts.eyesColor, userEyesInputElement);
+      var colorObj = window.util.getColorForObject(userEyesElement, EYES_COLORS, counts.eyesColor, window.variables.userEyesInputElement);
+      counts.eyesColor = colorObj.count;
+
+      window.similar.onEyesChange(colorObj.color);
     });
 
     userFireballElement.addEventListener('click', function () {
       counts.fireballColor = window.util.getBackgorundColorForObject(userFireballElement, FIREBALL_COLORS, counts.fireballColor, userFireballInputElement);
-
     });
   };
 
-  var deleteErrorElement = function () {
-    var errorMessage = document.querySelector('.error-message');
-
-    if (errorMessage) {
-      errorMessage.remove();
-    }
-  };
-
-  var onLoadSuccess = function (data) {
-    var randomWizards = window.util.getRandomWizards(data);
-    deleteErrorElement();
-
-    window.util.addRenderWizards(randomWizards);
-  };
-
-  var onConnectError = function (errorMessage) {
-    deleteErrorElement();
-
-    var node = document.createElement('div');
-
-    node.classList.add('error-message');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
-  };
-
   var onSaveSuccess = function () {
-    deleteErrorElement();
+    window.util.deleteErrorElement();
     window.variables.userDialogElement.classList.add(window.variables.HIDDEN_CLASS);
   };
 
   var init = function () {
-    showSimilarList();
+
     addUserDialogElementValidation();
     addUserChangeColorListener();
 
-    window.backend.load(onLoadSuccess, onConnectError);
-
     formUserDialgoElement.addEventListener('submit', function (evt) {
-      window.backend.save(new FormData(formUserDialgoElement), onSaveSuccess, onConnectError);
+      window.backend.save(new FormData(formUserDialgoElement), onSaveSuccess, window.util.onConnectError);
       evt.preventDefault();
     });
   };

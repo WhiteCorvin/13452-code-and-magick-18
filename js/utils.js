@@ -44,7 +44,7 @@
     } else {
       count++;
     }
-    return count;
+    return {color: colorObject, count: count};
   };
 
   var getBackgorundColorForObject = function (object, array, count, input) {
@@ -73,16 +73,6 @@
     return maxElement;
   };
 
-  var getRandomWizards = function (wizards) {
-    var arrRandomWizards = [];
-
-    for (var i = 0; i < NUMBER_OF_WIZARDS; i++) {
-      var arrRandomElem = wizards.splice(getRandomInt(wizards.length - 1), 1);
-      arrRandomWizards = arrRandomWizards.concat(arrRandomElem);
-    }
-    return arrRandomWizards;
-  };
-
   var renderWizard = function (wizardData) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
 
@@ -96,13 +86,39 @@
   var addRenderWizards = function (wizardList) {
     var similarListElement = document.querySelector('.setup-similar-list');
     var fragment = document.createDocumentFragment();
+    similarListElement.innerHTML = '';
 
-    for (var i = 0; i < wizardList.length; i++) {
+    for (var i = 0; i < NUMBER_OF_WIZARDS; i++) {
       var wizardItem = renderWizard(wizardList[i]);
       fragment.appendChild(wizardItem);
     }
 
     similarListElement.appendChild(fragment);
+  };
+
+  var onConnectError = function (errorMessage) {
+    deleteErrorElement();
+
+    var node = document.createElement('div');
+
+    node.classList.add('error-message');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  var deleteErrorElement = function () {
+    var errorMessage = document.querySelector('.error-message');
+
+    if (errorMessage) {
+      errorMessage.remove();
+    }
+
   };
 
   window.util = {
@@ -112,8 +128,9 @@
     getColorForObject: getColorForObject,
     getBackgorundColorForObject: getBackgorundColorForObject,
     getMaxElement: getMaxElement,
-    getRandomWizards: getRandomWizards,
-    addRenderWizards: addRenderWizards
+    addRenderWizards: addRenderWizards,
+    onConnectError: onConnectError,
+    deleteErrorElement: deleteErrorElement
   };
 
 })();
