@@ -124,6 +124,7 @@
   window.util = {
     doActionIfEscEvent: doActionIfEscEvent,
     doActionIfEnterEvent: doActionIfEnterEvent,
+    getRandomInt: getRandomInt,
     getRandomData: getRandomData,
     getColorForObject: getColorForObject,
     getBackgorundColorForObject: getBackgorundColorForObject,
